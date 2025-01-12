@@ -14,7 +14,7 @@ Create a character and allocate stat points. (Attack, Defense, Health, Critical 
 Features:
 
 - Character Creation
-- Allocate stat points
+-- Allocate stat points
 - Stats include health, attack, defense, and critical hit chance
 - Exploration
 - Encounter random creatures selected from a predefined creatureList
