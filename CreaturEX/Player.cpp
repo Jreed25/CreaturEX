@@ -61,11 +61,7 @@ int Player::doDamage() const
 
 void Player::heal()
 {
-	if (health == totalHealth)
-	{
-		cout << "You are already full health!\n";
-		return;
-	}
+
 	health = totalHealth;
 
 }
@@ -85,7 +81,6 @@ void Player::gainExp(int expAmount)
 
 }
 
-
 void Player::gainGold(int goldAmount)
 {
 	gold += goldAmount;
@@ -102,7 +97,6 @@ void Player::levelUp()
 	exp = 0;
 	updateStats(); // Call update stats for level up
 }
-
 
 void Player::updateStats()
 {
@@ -347,7 +341,6 @@ const vector<Creature>& Player::getCaughtCreatures() const
 {
 	return caughtCreatures;
 }
-
 
 
 // Enctounters ********************

@@ -36,7 +36,7 @@ void Display::showMenu(Player& player, CreatureList& creatureList)
         cout << "1. Explore\n";
         cout << "2. Shop\n";
         cout << "3. Bestiary\n";
-        cout << "4. Stats\n";
+        cout << "4. Character\n";
         cout << "5. Save Game\n";
         cout << "6. Quit Game\n";
         cout << "Enter your choice: ";
@@ -256,7 +256,7 @@ void Display::clearScreen()
 
 void Display::pauseforInput()
 {
-    cout << "Press Enter to return to the menu...";
+    cout << "Press Enter to return...";
     cin.ignore();  // Clears the newline character left in the buffer
     cin.get();     // Waits for Enter key press
 }
@@ -284,10 +284,9 @@ void Display::displayPlayer(Player& player, CreatureList& creatureList)
 
             player.displayInventory();
 
-            cout << "Press Enter to return to the menu...";
+            cout << "Press Enter to return...";
             cin.ignore();  // Clears the newline character left in the buffer
             cin.get();     // Waits for Enter key press
-
             break;
         case 3:
 

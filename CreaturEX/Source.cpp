@@ -56,7 +56,7 @@ int main()
         system("cls");
         cout << "This is CreatureX.\n";
         cout << "1. Character Creation\n";
-        cout << "2. Character Selection\n";
+        cout << "2. Load Character\n";
         cout << "3. Quit Game\n";
         cout << "Enter your choice: \n";
         cin >> start_choice;

@@ -16,6 +16,7 @@ CreatureList::CreatureList()
 	creatures.push_back(Creature("Phorlupe", 20, 5, 28, 6.1, 100, 20, 50));
 	creatures.push_back(Creature("Seaplus", 17, 8, 25, 6.1, 100, 20, 50));
 	creatures.push_back(Creature("Duewhyle", 17, 8, 25, 6.1, 100, 20, 50));
+	
 
 }
 
