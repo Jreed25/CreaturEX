@@ -73,6 +73,7 @@ void Save::loadGame(Player& player)
     // Load items and item counts
     deserializeInventory(player, inFile);
 
+
     inFile.close();
     cout << "Player data loaded successfully.\n";
 }
