@@ -14,7 +14,7 @@ Create a character and allocate stat points. (Attack, Defense, Health, Critical 
 Features:
 
 - Character Creation
-- -Allocate stat points
+- Allocate stat points
 - Stats include health, attack, defense, and critical hit chance
 - Exploration
 - Encounter random creatures selected from a predefined creatureList
@@ -24,9 +24,9 @@ Features:
 - Gain gold and EXP upon victory, with rewards scaling to creatures difficulty
 - Gold can be used in the shop to purchase items
 - Leveling System
-- Earn EXP from battls, with level thresholds defined as level * 100. (May change in the future)
+- Earn EXP from battles, with level thresholds defined as level * 100. (May change in the future)
 - Leveling up increases character's stats.
-- Bestiary Tracks all encountered and caught creatures.
+- Bestiary tracks all encountered and caught creatures.
 - Shop System
 - Purchase items such as potions, capture tools, and upgrades using gold.
 - Sell items from your inventory for additional gold
