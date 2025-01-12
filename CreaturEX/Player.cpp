@@ -385,6 +385,7 @@ void Player::displayInventory() const
 	{
 		cout << "- " << pair.first << ": " << pair.second << "\n";
 	}
+
 }
 
 const vector<Item>& Player::getInventory() const

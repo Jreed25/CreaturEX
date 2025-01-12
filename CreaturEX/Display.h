@@ -14,6 +14,7 @@ public:
 	void showMenu(Player& player, CreatureList& creatureList);
 	void displayBestiary(Player& player, CreatureList& creatureList);
 	void explore(Player& player, CreatureList& creatureList);
+	void displayPlayer(Player& player, CreatureList& creatureList);
 	void displayPlayerStats(const Player& player);
 	void displayCreatureStats(const Creature& creature);
 	void clearScreen();

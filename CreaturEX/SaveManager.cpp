@@ -85,7 +85,7 @@ void Save::serializeStats(const Player& player, ofstream& outFile)
 {
     // Players stats
     int level = player.getLevel();
-    int attack = player.attackValue();// ok
+    int attack = player.attackValue();
     int defense = player.defenseValue();
     int health = player.getHealth();
     double criticalHC = player.getCriticalHC();

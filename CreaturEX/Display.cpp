@@ -10,6 +10,7 @@
 #include "Shop.h"
 
 #include <iostream>
+#include<iomanip>
 #include <cstdlib>
 #include <vector>
 
@@ -31,7 +32,7 @@ void Display::showMenu(Player& player, CreatureList& creatureList)
         clearScreen();
         player.heal();  // Heal player
 
-        cout << "---- Welcome back to Creatara! ----\n";
+        cout << "--- Welcome back to Creatara! ---\n";
         cout << "1. Explore\n";
         cout << "2. Shop\n";
         cout << "3. Bestiary\n";
@@ -57,7 +58,7 @@ void Display::showMenu(Player& player, CreatureList& creatureList)
             break;
         case 4:
 
-            displayPlayerStats(player);
+            displayPlayer(player, creatureList);
             break;
         case 5:
 
@@ -87,7 +88,7 @@ void Display::displayBestiary(Player& player, CreatureList& creatureList)
     const vector<Creature>& allCaughtCreatures = player.getCaughtCreatures();
 
     clearScreen();
-    cout << "---- Bestiary ----\n";
+    cout << "--- Bestiary ---\n";
     cout << "1. Encountered Creatures\n";
     cout << "2. Caught Creatures\n";
     cout << "3. Back to town square \n";
@@ -155,7 +156,7 @@ void Display::displayBestiary(Player& player, CreatureList& creatureList)
 void Display::displayPlayerStats(const Player& player)
 {
     clearScreen();
-    cout << "---- Stats ----\n";
+    cout << "--- Stats ---\n";
     cout << "Attack: " << player.attackValue() << endl;
     cout << "Defense: " << player.defenseValue() << endl;
     cout << "Health: " << player.getTotalHealth() << endl;
@@ -163,6 +164,7 @@ void Display::displayPlayerStats(const Player& player)
     cout << "Level: " << player.getLevel() << endl;
     cout << "Exp: " << player.getExp() << " (Next Level: " << (player.getLevel() * 100) - player.getExp() << " exp)" << endl;
     cout << "Gold: " << player.getGold() << endl << endl;
+
 
     // Pause to allow the player to review stats
     pauseforInput();
@@ -257,4 +259,39 @@ void Display::pauseforInput()
     cout << "Press Enter to return to the menu...";
     cin.ignore();  // Clears the newline character left in the buffer
     cin.get();     // Waits for Enter key press
+}
+
+void Display::displayPlayer(Player& player, CreatureList& creatureList)
+{
+    clearScreen();
+    // Variables
+    int choice = 0;
+    
+    // Display choice menu
+    cout << "--- Character Details ---\n";
+    cout << "1. View Stats\n";
+    cout << "2. View Inventory\n";
+    cout << "3. Back to town square \n";
+    cout << "Enter your choice: \n";
+    cin >> choice;
+
+    switch (choice) {
+        case 1:
+
+            displayPlayerStats(player);
+            break;
+        case 2:
+
+            player.displayInventory();
+
+            cout << "Press Enter to return to the menu...";
+            cin.ignore();  // Clears the newline character left in the buffer
+            cin.get();     // Waits for Enter key press
+
+            break;
+        case 3:
+
+            return;
+         
+    }
 }
