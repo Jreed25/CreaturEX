@@ -36,7 +36,7 @@ Features:
 - Caught and encountered creatures.
 - Inventory.
 - Current EXP and level progress.
-- Load save progress to continue the adventure.<br
+- Load save progress to continue the adventure.<br>
 How To Play:
 
 Character Creation: Begin by creating a character and allocating stat points.
