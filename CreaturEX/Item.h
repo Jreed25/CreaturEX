@@ -1,34 +1,25 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-#include <vector>
 #include <string>
-
-using namespace std;
+#include <vector>
 
 class Item
 {
 private:
-	string name;
+	std::string name;
 	int price;
-	vector<Item> items;
+
 
 public:
-	// Constructor
-	Item(string itemName, int itemPrice);
+	Item(std::string itemName, int itemPrice);
 
+	static std::vector<Item> createItemDatabase();
 
-	// Getters
-	string getName() const;
+	std::string getName() const;
 	int getPrice() const;
 
-
-
-	// Setters
 	void setPrice(int newPrice);
-
-
 };
-
 
 #endif

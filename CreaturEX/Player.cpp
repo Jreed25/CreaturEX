@@ -1,84 +1,69 @@
-// Implementation file for the Player class
+#include "Display.h"
 #include "Player.h"		
-#include "Display.h"	
-#include "Creature.h"
-
-#include <iostream>
-#include <fstream> 
+	
+#include <cmath>
+#include <cstdlib> 
 #include <iomanip>
-#include <cstdlib>
-#include <ctime>
-#include <string>
+#include <iostream>
+#include <limits>
 #include <map>
 
-using namespace std;
-
-
-// Constructor for player (default values for stats)
-
-Player::Player(string name)
-	: name(name), totalHealth(0), attack(0), defense(0), gold(0), level(1), exp(0), criticalHitChance(0)
+Player::Player(std::string name)
+    : name(name), attack(0), defense(0), health(0), totalHealth(0),
+      exp(0), gold(0), level(1), criticalHitChance(0)
 {
 }
 
 
-//Combat******************
-//************************
 int Player::takeDamage(int damage)
 {
-	int netDamage = static_cast<int>(damage - (.25 * defense)); // Defense scaling for damage
-	if (netDamage < 0) netDamage = 0;		// Check for negative damage
+	// Defense reduces incoming damage by 25%.
+	int netDamage = static_cast<int>(damage - (.25 * defense)); 
+	if (netDamage < 0) netDamage = 0;		
 	health -= netDamage;
-	if (health < 0) health = 0;				//  Prevent health from going below 0
+	if (health < 0) health = 0;				
 
 	return netDamage;
 }
 
-
 int Player::takeReducedDamage(int damage)
 {
-	int netReducedDamage = static_cast<int>(damage - (1 * defense)); // Defense scaling for damage
-	if (netReducedDamage < 0) netReducedDamage = 0;		// Check for negative damage
+	// Defense reduces incoming damage by its full value while defending.
+	int netReducedDamage = static_cast<int>(damage - defense); 
+	if (netReducedDamage < 0) netReducedDamage = 0;		
 	health -= netReducedDamage;
-	if (health < 0) health = 0;		//  Prevent health from going below 0
+	if (health < 0) health = 0;		
 
 	return netReducedDamage;
 }
 
-
 int Player::doDamage() const
 {
-	int damage = rand() % attack + 1; // Random amount of damage scaling with attack
+	int damage = std::rand() % attack + 1;
 
-	if ((rand() % 100) < (criticalHitChance)) {// Checking for critical hit
+	if ((std::rand() % 100) < (criticalHitChance)) 
+	{
 		damage = static_cast<int>(damage * 1.5);
-		cout << "Critical Hit!\n";
+		std::cout << "Critical Hit!\n";
 	}
 
 	return damage;
 }
 
-
 void Player::heal()
 {
-
 	health = totalHealth;
-
 }
 
 
-// Gains for player*************
-//******************************
 void Player::gainExp(int expAmount)
 {
-
 	exp += expAmount;
-	if (exp >= level * 100) // Threshold for leveling
+	if (exp >= level * 100) 
 	{
 		levelUp();
-		cout << "You have leveled up. Good job!\n";
+		std::cout << "You have leveled up. Good job!\n";
 	}
-
 }
 
 void Player::gainGold(int goldAmount)
@@ -95,84 +80,77 @@ void Player::levelUp()
 {
 	level++;
 	exp = 0;
-	updateStats(); // Call update stats for level up
+	updateStats(); 
 }
 
 void Player::updateStats()
 {
-	attack += static_cast<int>(ceil(attack * .1));
-	defense += static_cast<int>(ceil(defense * .1));
-	totalHealth += static_cast<int>(ceil(totalHealth * .2));
+	attack += static_cast<int>(std::ceil(attack * .1));
+	defense += static_cast<int>(std::ceil(defense * .1));
+	totalHealth += static_cast<int>(std::ceil(totalHealth * .2));
 	criticalHitChance += criticalHitChance * .1;
 }
 
 
-// Getters ********************
-//*****************************
-string Player::getName() const
+std::string Player::getName() const
 {
 	return name;
 }
 
-
-int Player::attackValue() const
+int Player::getAttack() const
 {
 	return attack;
 }
 
-
-int Player::defenseValue() const
+int Player::getDefense() const
 {
 	return defense;
 }
-
 
 int Player::getTotalHealth() const
 {
 	return totalHealth;
 }
 
-
 int Player::getHealth() const
 {
 	return health;
 }
-
 
 int Player::getGold() const
 {
 	return gold;
 }
 
-
 int Player::getExp() const
 {
 	return exp;
 }
-
 
 int Player::getLevel() const
 {
 	return level;
 }
 
-
-double Player::getCriticalHC() const
+double Player::getCriticalHitChance() const
 {
 	return criticalHitChance;
 }
 
 
-// Setters *******************************
-//****************************************
-void Player::setName(const string& newName)
+void Player::setName(const std::string& newName)
 {
 	name = newName;
 }
 
+void Player::setTotalHealth(int newTotalHealth)
+{
+	totalHealth = newTotalHealth;
+}
+
 void Player::setHealth(int newHealth)
 {
-	totalHealth = newHealth;
+	health = newHealth;
 }
 
 void Player::setAttack(int newAttack)
@@ -206,8 +184,6 @@ void Player::setLevel(int newLevel)
 }
 
 
-// Stat point allocation
-
 void Player::allocateStatPoints(Player& player, CreatureList& creatureList)
 {
 	int pointsRemaining = MAX_POINTS;
@@ -216,91 +192,77 @@ void Player::allocateStatPoints(Player& player, CreatureList& creatureList)
 	Display display;
 	display.clearScreen();
 
-	cout << "Distribute " << MAX_POINTS << " points across the following stats:\n";
-	cout << "----------------------------------------------------\n";
-	cout << "| Stat                | Points Allocated |\n";
-	cout << "----------------------------------------------------\n";
-	cout << "| 1. Attack           | ?                |\n";
-	cout << "| 2. Defense          | ?                |\n";
-	cout << "| 3. Health           | ?                |\n";
-	cout << "| 4. Critical Hit     | ?                |\n";
-	cout << "----------------------------------------------------\n";
-	cout << "Remaining points will be added to health.\n";
+	std::cout << "Distribute " << MAX_POINTS << " points across the following stats:\n";
+	std::cout << "----------------------------------------------------\n";
+	std::cout << "| Stat                | Points Allocated |\n";
+	std::cout << "----------------------------------------------------\n";
+	std::cout << "| 1. Attack           | ?                |\n";
+	std::cout << "| 2. Defense          | ?                |\n";
+	std::cout << "| 3. Health           | ?                |\n";
+	std::cout << "| 4. Critical Hit     | ?                |\n";
+	std::cout << "----------------------------------------------------\n";
+	std::cout << "Remaining points will be added to health.\n";
 
 
-	// Name 
-	cout << "Player Name: ";
-	cin >> name;
+	std::cout << "Player Name: ";
+	std::cin >> name;
 
 
-	// Attack
 	attack = getValidInput("Attack", pointsRemaining);
 	pointsRemaining -= attack;
 
-
-	// Defense
 	defense = getValidInput("Defense", pointsRemaining);
 	pointsRemaining -= defense;
 
-
-	// Health
 	totalHealth = getValidInput("Health", pointsRemaining);
 	pointsRemaining -= totalHealth;
 
-
-	// Critical Hit Chance
 	criticalHitChance = getValidInput("Critical Hit Chance", pointsRemaining);
-	static_cast<int>(pointsRemaining -= criticalHitChance);
+	pointsRemaining -= static_cast<int>(criticalHitChance);	
 
 
-	// Allocate points left over
 	if (pointsRemaining > 0)
 	{
 		totalHealth += pointsRemaining;
 	}
 
 
-	// Initialize these values
 	gold = 0;
 	exp = 0;
 	level = 1;
 	health = totalHealth;
 
 	display.clearScreen();
-	// Display their allocated stats
-	cout << "\n----------------------------------------------------\n";
-	cout << "| Stat                | Points Allocated |\n";
-	cout << "----------------------------------------------------\n";
-	cout << "| 1. Attack           | " << setw(2) << attack << setw(17) << "             |\n";
-	cout << "| 2. Defense          | " << setw(2) << defense << setw(17) << "             |\n";
-	cout << "| 3. Health           | " << setw(2) << totalHealth << setw(17) << "            |\n";
-	cout << "| 4. Critical Hit     | " << setw(2) << criticalHitChance << setw(17) << "  |\n";
-	cout << "----------------------------------------------------\n";
-	cout << "\nStat allocation complete!\n";
+	std::cout << "\n----------------------------------------------------\n";
+	std::cout << "| Stat                | Points Allocated |\n";
+	std::cout << "----------------------------------------------------\n";
+	std::cout << "| 1. Attack           | " << std::setw(2) << attack << std::setw(17) << "             |\n";
+	std::cout << "| 2. Defense          | " << std::setw(2) << defense << std::setw(17) << "             |\n";
+	std::cout << "| 3. Health           | " << std::setw(2) << totalHealth << std::setw(17) << "            |\n";
+	std::cout << "| 4. Critical Hit     | " << std::setw(2) << criticalHitChance << std::setw(17) << "  |\n";
+	std::cout << "----------------------------------------------------\n";
+	std::cout << "\nStat allocation complete!\n";
 
-	display.pauseforInput();
+	display.pauseForInput();
 	display.showMenu(player, creatureList);
-
 }
 
 
-// Check for valid input
-
-int Player::getValidInput(const string& statName, int pointsRemaining)
+int Player::getValidInput(const std::string& statName, int pointsRemaining)
 {
 	int input;
 
-	// Keep it looping 
+
 	while (true)
 	{
-		cout << statName << ": ";
-		cin >> input;
+		std::cout << statName << ": ";
+		std::cin >> input;
 
-		if (cin.fail()) {
-			// Clear the input stream and ignore invalid input
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			cout << "Invalid input. Please enter a valid integer.\n";
+		if (std::cin.fail()) 
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Invalid input. Please enter a valid integer.\n";
 		}
 		else if (input >= 0 && input <= pointsRemaining)
 		{
@@ -308,26 +270,24 @@ int Player::getValidInput(const string& statName, int pointsRemaining)
 		}
 		else
 		{
-			cout << "Invalid input. Please enter a number between 0 and " << pointsRemaining << endl;
+			std::cout << "Invalid input. Please enter a number between 0 and " << pointsRemaining << '\n';
 		}
 	}
 }
 
 
-// Caught creatures************
-//*****************************
 bool Player::catchCreature(const Creature& creature)
 {
-	if (rand() % 100 > creature.getCatchRate())
+	if (std::rand() % 100 < creature.getCatchRate())
 	{
-		cout << "You have caught " << creature.getName() << " good job!!\n";
-		cout << creature.getName() << " added to your collection.\n";
+		std::cout << "You have caught " << creature.getName() << " good job!!\n";
+		std::cout << creature.getName() << " added to your collection.\n";
 		caughtCreatures.push_back(creature);
 		return true;
 	}
 	else
 	{
-		cout << "You have failed to catch the " << creature.getName() << " good luck next time.\n";
+		std::cout << "You have failed to catch the " << creature.getName() << " good luck next time.\n";
 		return false;
 	}
 }
@@ -337,36 +297,32 @@ void Player::addCaughtCreature(const Creature& creature)
 	caughtCreatures.push_back(creature);
 }
 
-const vector<Creature>& Player::getCaughtCreatures() const
+const std::vector<Creature>& Player::getCaughtCreatures() const
 {
 	return caughtCreatures;
 }
 
 
-// Enctounters ********************
-//*********************************
 void Player::addEncounteredCreature(const Creature& creature)
 {
 	encounteredCreatures.push_back(creature);
 }
 
-const vector<Creature>& Player::getEncounteredCreatures() const
+const std::vector<Creature>& Player::getEncounteredCreatures() const
 {
 	return encounteredCreatures;
 }
 
 
-// Inventory Management***********
-//********************************
 void Player::displayInventory() const
 {
 	if (inventory.empty())
 	{
-		cout << "Your inventory is empty.\n";
+		std::cout << "Your inventory is empty.\n";
 		return;
 	}
 
-	map<string, int> itemCounts;
+	std::map<std::string, int> itemCounts;
 
 	for (const auto& item : inventory)
 	{
@@ -376,17 +332,16 @@ void Player::displayInventory() const
 	std::cout << "\nYour Inventory:\n";
 	for (const auto& pair : itemCounts)
 	{
-		cout << "- " << pair.first << ": " << pair.second << "\n";
+		std::cout << "- " << pair.first << ": " << pair.second << "\n";
 	}
-
 }
 
-const vector<Item>& Player::getInventory() const
+const std::vector<Item>& Player::getInventory() const
 {
 	return inventory;
 }
 
-void Player::setInventory(const vector<Item>& newInventory)
+void Player::setInventory(const std::vector<Item>& newInventory)
 {
 	inventory = newInventory;
 }
@@ -396,7 +351,7 @@ void Player::addItem(const Item& item)
 	inventory.push_back(item);
 }
 
-void Player::removeItem(const string& itemName)
+void Player::removeItem(const std::string& itemName)
 {
 	for (auto it = inventory.begin(); it != inventory.end(); ++it)
 	{
@@ -408,15 +363,19 @@ void Player::removeItem(const string& itemName)
 	}
 }
 
-bool Player::hasItem(const std::string& itemName) const {
-	for (const auto& item : inventory) {
-		if (item.getName() == itemName) {
+bool Player::hasItem(const std::string& itemName) const 
+{
+	for (const auto& item : inventory) 
+	{
+		if (item.getName() == itemName) 
+		{
 			return true;
 		}
 	}
 	return false;
 }
 
-bool Player::isInventoryEmpty() const {
+bool Player::isInventoryEmpty() const 
+{
 	return inventory.empty();
 }

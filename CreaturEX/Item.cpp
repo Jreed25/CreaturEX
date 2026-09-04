@@ -1,15 +1,12 @@
 #include "Item.h"
 
-#include <vector>
+Item::Item(std::string itemName, int itemPrice)
+	: name(itemName), price(itemPrice) 
+{	
+}
 
-// Item class implementation
-Item::Item(string itemName, int itemPrice)
-	: name(itemName), price(itemPrice) {}
 
-
-// Getter/setter********
-//**********************
-string Item::getName() const
+std::string Item::getName() const
 {
 	return name;
 }
@@ -25,14 +22,15 @@ void Item::setPrice(int newPrice)
 }
 
 
-// Item database
-vector<Item> createItemDatabase() {
-	return {
+std::vector<Item> Item::createItemDatabase() 
+{
+	return 
+	{
 		Item("Hexball", 15),
 		Item("Health Potion I", 20),
 		Item("Health Potion II", 35),
 		Item("Attack Potion", 30),
 		Item("Defense Potion", 25),
-		Item("Revive", 50),
+		Item("Revive", 50)
 	};
 }

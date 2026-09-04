@@ -3,12 +3,10 @@
 
 #include <string>
 
-using namespace std;
-
 class Creature
 {
 private:
-	string name;
+	std::string name;
 	int level;
 	int health;
 	int totalHealth;
@@ -21,8 +19,10 @@ private:
 
 public:
 	Creature();
-	Creature(string name, int attack, int defense, int totalHealth, double criticalHitChance, int expDrop, int goldDrop, int catchRate);	// Creature Creation
-	// Actions
+	Creature(std::string name, int attack, int defense, 
+		int totalHealth, double criticalHitChance, int expDrop, 
+		int goldDrop, int catchRate);
+
 	int takeDamage(int);
 	int doDamage() const;
 	int giveRandExp();
@@ -30,17 +30,16 @@ public:
 	void resetHealth();
 	void setLevel(int);
 
-	// Display
-	string getName() const;
-	int attackValue() const;
-	int defenseValue() const;
-	double getCriticalHC() const;
+
+	std::string getName() const;
+	int getAttack() const;
+	int getDefense() const;
+	double getCriticalHitChance() const;
 	int getHealth() const;
 	int getTotalHealth() const;
 	int getCatchRate() const;
 	int getExpDrop() const;
 	int getGoldDrop() const;
-
 };
 
 #endif

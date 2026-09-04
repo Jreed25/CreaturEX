@@ -1,100 +1,77 @@
-// Implementation file for all display functions
-
-// Headers
-#include "Display.h"
-#include "Player.h"
 #include "Creature.h"
 #include "CreatureList.h"
+#include "Display.h"
 #include "Encounter.h"
+#include "Player.h"
 #include "SaveManager.h"
 #include "Shop.h"
 
-#include <iostream>
-#include<iomanip>
 #include <cstdlib>
+#include <iostream>
+#include <limits>
 #include <vector>
-
-using namespace std;
-
-
-// Function for showing Creatara menu
 
 void Display::showMenu(Player& player, CreatureList& creatureList)
 {
     Save save;
     Shop shop;
-    bool inShop = true;
 
     int choice = 0;
 
-    // Display menu
-    while (choice != 5) {
+    while (choice != 6) 
+    {
         clearScreen();
-        player.heal();  // Heal player
+        player.heal();  
 
-        cout << "--- Welcome back to Creatara! ---\n";
-        cout << "1. Explore\n";
-        cout << "2. Shop\n";
-        cout << "3. Bestiary\n";
-        cout << "4. Character\n";
-        cout << "5. Save Game\n";
-        cout << "6. Quit Game\n";
-        cout << "Enter your choice: ";
-        cin >> choice;
-
-        // Case for menu choice
-        switch (choice) {
+        std::cout << "--- Welcome back to Creatara! ---\n";
+        std::cout << "1. Explore\n";
+        std::cout << "2. Shop\n";
+        std::cout << "3. Bestiary\n";
+        std::cout << "4. Character\n";
+        std::cout << "5. Save Game\n";
+        std::cout << "6. Quit Game\n";
+        std::cout << "Enter your choice: ";
+        std::cin >> choice;
+        
+        switch (choice) 
+        {
         case 1:
-
             explore(player, creatureList);
             break;
         case 2:
-
             shop.displayShopInventory(player);
             break;
         case 3:
-
-            displayBestiary(player, creatureList);
+            displayBestiary(player);
             break;
         case 4:
-
-            displayPlayer(player, creatureList);
+            displayPlayer(player);
             break;
         case 5:
-
             save.saveGame(player);
             break;
         case 6:
-
-            exit(EXIT_FAILURE);
-            break;
+            return;
         default:
-
-            cout << "Invalid input. Try again.\n\n";
+            std::cout << "Invalid input. Try again.\n\n";
             break;
         }
-
     }
 }
 
-
-// Function for displaying bestiary
-
-void Display::displayBestiary(Player& player, CreatureList& creatureList)
+void Display::displayBestiary(Player& player)
 {
-    int i = 0;
     int choice = 0;
-    const vector<Creature>& allEncounteredCreatures = player.getEncounteredCreatures();
-    const vector<Creature>& allCaughtCreatures = player.getCaughtCreatures();
+    const std::vector<Creature>& allEncounteredCreatures = player.getEncounteredCreatures();
+    const std::vector<Creature>& allCaughtCreatures = player.getCaughtCreatures();
 
     clearScreen();
-    cout << "--- Bestiary ---\n";
-    cout << "1. Encountered Creatures\n";
-    cout << "2. Caught Creatures\n";
-    cout << "3. Back to town square \n";
-    cout << "Which would you like to view? \n";
-    cin >> choice;
-
+    std::cout << "--- Bestiary ---\n";
+    std::cout << "1. Encountered Creatures\n";
+    std::cout << "2. Caught Creatures\n";
+    std::cout << "3. Back to town square\n";
+    std::cout << "Which would you like to view?\n";
+    std::cin >> choice;
 
     switch (choice)
     {
@@ -102,195 +79,156 @@ void Display::displayBestiary(Player& player, CreatureList& creatureList)
         clearScreen();
         if (allEncounteredCreatures.empty())
         {
-            // Checking if bestiary is empty
-            cout << "You haven't encountered any creatures yet. \n";
+            std::cout << "You haven't encountered any creatures yet.\n";
         }
         else
         {
+            int i = 1;
+            
             for (const Creature& creature : allEncounteredCreatures)
             {
-
-                i++;
-                cout << i << ". " << creature.getName() << endl;
-
+                std::cout << i++ << ". " << creature.getName() << '\n';
             }
         }
-        pauseforInput();
+
+        pauseForInput();
         break;
     case 2:
         clearScreen();
         if (allCaughtCreatures.empty())
-        {
-            // Checking if bestiary is empty
-            cout << "You haven't caught any creatures yet. \n";
+        {   
+            std::cout << "You haven't caught any creatures yet.\n";
         }
         else
         {
+            int i = 1;
+            
             for (const Creature& creature : allCaughtCreatures)
             {
-
-                i++;
-                cout << i << ". " << creature.getName() << endl;
-
+                std::cout << i++ << ". " << creature.getName() << '\n';
             }
         }
-        pauseforInput();
-        break;
 
+        pauseForInput();
+        break;
     case 3:
-
-        showMenu(player, creatureList);
-        break;
+        return;
     default:
-
-        cout << "Invalid input. Try again.\n";
+        std::cout << "Invalid input. Try again.\n";
         break;
     }
-
-
 }
-
-
-// Function for displaying stats
 
 void Display::displayPlayerStats(const Player& player)
 {
     clearScreen();
-    cout << "--- Stats ---\n";
-    cout << "Attack: " << player.attackValue() << endl;
-    cout << "Defense: " << player.defenseValue() << endl;
-    cout << "Health: " << player.getTotalHealth() << endl;
-    cout << "Critical Hit Chance: " << player.getCriticalHC() << endl;
-    cout << "Level: " << player.getLevel() << endl;
-    cout << "Exp: " << player.getExp() << " (Next Level: " << (player.getLevel() * 100) - player.getExp() << " exp)" << endl;
-    cout << "Gold: " << player.getGold() << endl << endl;
+    std::cout << "--- Stats ---\n";
+    std::cout << "Attack: " << player.attackValue() << '\n';
+    std::cout << "Defense: " << player.defenseValue() << '\n';
+    std::cout << "Health: " << player.getTotalHealth() << '\n';
+    std::cout << "Critical Hit Chance: " << player.getCriticalHC() << '\n';
+    std::cout << "Level: " << player.getLevel() << '\n';
+    std::cout << "Exp: " << player.getExp() << " (Next Level: " << (player.getLevel() * 100) - player.getExp() << " exp)" << '\n';
+    std::cout << "Gold: " << player.getGold() << '\n\n';
 
-
-    // Pause to allow the player to review stats
-    pauseforInput();
+    pauseForInput();
 }
-
-
-// Function for displaying Creature stats
 
 void Display::displayCreatureStats(const Creature& creature)
 {
     clearScreen();
-    cout << "---- Stats ----\n";
-    cout << "Name: " << creature.getName() << endl;
-    cout << "Attack: " << creature.attackValue() << endl;
-    cout << "Defense: " << creature.defenseValue() << endl;
-    cout << "Health: " << creature.getHealth() << endl;
+    std::cout << "---- Stats ----\n";
+    std::cout << "Name: " << creature.getName() << '\n';
+    std::cout << "Attack: " << creature.getAttack() << '\n';
+    std::cout << "Defense: " << creature.getDefense() << '\n';
+    std::cout << "Health: " << creature.getHealth() << '\n';
 
-
-    // Pause to allow the player to review stats
-    pauseforInput();
-
+    pauseForInput();
 }
 
+void Display::displayPlayer(Player& player)
+{
+    clearScreen();
+    int choice = 0;
+    
+    std::cout << "--- Character Details ---\n";
+    std::cout << "1. View Stats\n";
+    std::cout << "2. View Inventory\n";
+    std::cout << "3. Back to town square\n";
+    std::cout << "Enter your choice: \n";
+    std::cin >> choice;
 
-// Function for choosing to explore
+    switch (choice) 
+    {
+    case 1:
+        displayPlayerStats(player);
+        break;
+    case 2:
+        player.displayInventory();
+
+        pauseForInput();   
+        break;
+    case 3:
+        return;
+    default:
+        std::cout << "Invalid input. Try again.\n";
+        pauseForInput();
+        break;     
+    }
+}
 
 void Display::explore(Player& player, CreatureList& creatureList)
 {
     int choice = 0;
     Encounter encounter;
 
-    // Menu for direction
     while (choice != 4)
     {
         clearScreen();
-        cout << "You chose to explore. Good luck!\n";
-        cout << "Choose your direction\n";
-        cout << "1. Left\n";
-        cout << "2. Straight\n";
-        cout << "3. Right\n";
-        cout << "4. Go back home\n";
-        cout << "Enter your choice: \n";
-        cin >> choice;
+        std::cout << "You chose to explore. Good luck!\n";
+        std::cout << "Choose your direction\n";
+        std::cout << "1. Left\n";
+        std::cout << "2. Straight\n";
+        std::cout << "3. Right\n";
+        std::cout << "4. Go back home\n";
+        std::cout << "Enter your choice: \n";
+        std::cin >> choice;
 
-
-        // Switch case for choices
         switch (choice)
         {
         case 1:
-
-            cout << "You chose to go left.\n";
-            cout << "Now heading left.\n";
-            encounter.handleEncounter(player, creatureList);    // Creature encounter
+            std::cout << "You chose to go left.\n";
+            std::cout << "Now heading left.\n";
+            encounter.handleEncounter(player, creatureList); 
             break;
         case 2:
-
-            cout << "You chose to go straight.\n";
-            cout << "Now heading straight.\n";
+            std::cout << "You chose to go straight.\n";
+            std::cout << "Now heading straight.\n";
             encounter.handleEncounter(player, creatureList);
             break;
         case 3:
-
-            cout << "You chose to go right.\n";
-            cout << "Now heading right.\n";
+            std::cout << "You chose to go right.\n";
+            std::cout << "Now heading right.\n";
             encounter.handleEncounter(player, creatureList);
             break;
         case 4:
-
             return;
         default:
-
-
-            cout << "Invalid input. Try again. \n\n";
+            std::cout << "Invalid input. Try again.\n\n";
             break;
         }
     }
 }
 
 
-// Clear screen
-
 void Display::clearScreen()
 {
-    system("CLS");  // Clears the screen on Windows
+    system("CLS"); 
 }
 
-
-// Function for pausing for input
-
-void Display::pauseforInput()
+void Display::pauseForInput()
 {
-    cout << "Press Enter to return...";
-    cin.ignore();  // Clears the newline character left in the buffer
-    cin.get();     // Waits for Enter key press
-}
-
-void Display::displayPlayer(Player& player, CreatureList& creatureList)
-{
-    clearScreen();
-    // Variables
-    int choice = 0;
-    
-    // Display choice menu
-    cout << "--- Character Details ---\n";
-    cout << "1. View Stats\n";
-    cout << "2. View Inventory\n";
-    cout << "3. Back to town square \n";
-    cout << "Enter your choice: \n";
-    cin >> choice;
-
-    switch (choice) {
-        case 1:
-
-            displayPlayerStats(player);
-            break;
-        case 2:
-
-            player.displayInventory();
-
-            cout << "Press Enter to return...";
-            cin.ignore();  // Clears the newline character left in the buffer
-            cin.get();     // Waits for Enter key press
-            break;
-        case 3:
-
-            return;
-         
-    }
+    std::cout << "Press Enter to return...";
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.get();  
 }

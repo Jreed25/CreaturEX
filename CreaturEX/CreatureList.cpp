@@ -1,7 +1,4 @@
-// Implementation file for Creature List
-
 #include "CreatureList.h"
-#include <vector>
 
 CreatureList::CreatureList()
 {
@@ -16,18 +13,16 @@ CreatureList::CreatureList()
 	creatures.push_back(Creature("Phorlupe", 20, 5, 28, 6.1, 100, 20, 50));
 	creatures.push_back(Creature("Seaplus", 17, 8, 25, 6.1, 100, 20, 50));
 	creatures.push_back(Creature("Duewhyle", 17, 8, 25, 6.1, 100, 20, 50));
-	
-
 }
 
-const vector<Creature>& CreatureList::getCreatures() const
+const std::vector<Creature>& CreatureList::getCreatures() const
 {
 	return creatures;
 }
 
 Creature CreatureList::getRandomCreature() const
 {
-	int randomIndex = rand() % creatures.size();
+	int randomIndex = std::rand() % creatures.size();
 	return creatures[randomIndex];
 }
 

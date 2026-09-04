@@ -3,20 +3,18 @@
 
 #include "CreatureList.h"
 #include "Creature.h"
-#include "Shop.h"
 #include "Item.h"
-#include <vector>
-#include <string>
 
-// Class declaration for the user
+#include <string>
+#include <vector>
 
 class Player
 {
 private:
-	vector<Creature> caughtCreatures;
-	vector<Creature> encounteredCreatures;
-	vector<Item> inventory;
-	string name;
+	std::vector<Creature> caughtCreatures;
+	std::vector<Creature> encounteredCreatures;
+	std::vector<Item> inventory;
+	std::string name;
 	int attack;
 	int defense;
 	int health;
@@ -28,36 +26,33 @@ private:
 
 	const int MAX_POINTS = 60;
 
-	void updateStats();	// Update stats level up
+	void updateStats();	
 
 public:
-	Player(string name = "Player");	// Player creation constructor
+	Player(std::string name = "Player");
 
-	// Combat
 	int takeDamage(int);
 	int takeReducedDamage(int);
 	void heal();
 	int doDamage() const;
 
-	// Gains for player
 	void gainExp(int);
 	void gainGold(int);
 	void subtractGold(int);
 	void levelUp();
 
-	// Getters
-	string getName() const;
-	int attackValue() const;
-	int defenseValue() const;
+	std::string getName() const;
+	int getAttack() const;
+	int getDefense() const;
 	int getTotalHealth() const;
 	int getHealth() const;
 	int getGold() const;
 	int getExp() const;
 	int getLevel() const;
-	double getCriticalHC() const;
+	double getCriticalHitChance() const;
 
-	// Setters
-	void setName(const string& newName);
+	void setName(const std::string& newName);
+	void setTotalHealth(int newTotalHealth);
 	void setHealth(int newHealth);
 	void setAttack(int newAttack);
 	void setDefense(int newDefense);
@@ -66,26 +61,27 @@ public:
 	void setExp(int newExp);
 	void setLevel(int newLevel);
 
-	// Allocate stat points
-	void allocateStatPoints(Player& player, CreatureList& creatureList);
-	int getValidInput(const string& statName, int pointsRemaining);
 
-	// Catch creature
+	void allocateStatPoints(Player& player, CreatureList& creatureList);
+	int getValidInput(const std::string& statName, int pointsRemaining);
+
+
 	bool catchCreature(const Creature& creature);
-	const vector<Creature>& getCaughtCreatures() const;
+	const std::vector<Creature>& getCaughtCreatures() const;
 	void addCaughtCreature(const Creature& creature);
 
-	// Encountered creatures bestiary display
-	void addEncounteredCreature(const Creature& creature);
-	const vector<Creature>& getEncounteredCreatures() const;
 
-	//Inventory Management
+	void addEncounteredCreature(const Creature& creature);
+	const std::vector<Creature>& getEncounteredCreatures() const;
+
+
 	void displayInventory() const;
-	const vector<Item>& getInventory() const;
-	void setInventory(const vector<Item>& newInventory);
+	const std::vector<Item>& getInventory() const;
+	void setInventory(const std::vector<Item>& newInventory);
 	void addItem(const Item& item);
-	void removeItem(const string& itemName);
-	bool hasItem(const string& itemName) const;
+	void removeItem(const std::string& itemName);
+	bool hasItem(const std::string& itemName) const;
 	bool isInventoryEmpty() const;
 };
+
 #endif
