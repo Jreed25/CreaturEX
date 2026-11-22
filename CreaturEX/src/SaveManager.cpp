@@ -8,7 +8,7 @@
 
 void Save::saveGame(const Player& player)
 {
-    std::ofstream outFile("playerData1.txt", std::ios::binary);
+    std::ofstream outFile("saves/playerData1.txt", std::ios::binary);
     if (!outFile)
     {
         std::cout << "Error opening file for saving data.\n";
@@ -35,7 +35,7 @@ void Save::saveGame(const Player& player)
 
 void Save::loadGame(Player& player)
 {
-    std::ifstream inFile("playerData1.txt", std::ios::binary);
+    std::ifstream inFile("saves/playerData1.txt", std::ios::binary);
     if (!inFile)
     {
         std::cout << "Error opening file for loading data.\n";
