@@ -53,7 +53,7 @@ int main()
     while (start_choice != 3)
     {
         // Game Start
-        system("cls");
+        system("clear");
         cout << "This is CreatureX.\n";
         cout << "1. Character Creation\n";
         cout << "2. Load Character\n";

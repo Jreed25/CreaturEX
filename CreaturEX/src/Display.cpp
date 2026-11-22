@@ -123,13 +123,13 @@ void Display::displayPlayerStats(const Player& player)
 {
     clearScreen();
     std::cout << "--- Stats ---\n";
-    std::cout << "Attack: " << player.attackValue() << '\n';
-    std::cout << "Defense: " << player.defenseValue() << '\n';
+    std::cout << "Attack: " << player.getAttack() << '\n';
+    std::cout << "Defense: " << player.getDefense() << '\n';
     std::cout << "Health: " << player.getTotalHealth() << '\n';
-    std::cout << "Critical Hit Chance: " << player.getCriticalHC() << '\n';
+    std::cout << "Critical Hit Chance: " << player.getCriticalHitChance() << '\n';
     std::cout << "Level: " << player.getLevel() << '\n';
     std::cout << "Exp: " << player.getExp() << " (Next Level: " << (player.getLevel() * 100) - player.getExp() << " exp)" << '\n';
-    std::cout << "Gold: " << player.getGold() << '\n\n';
+    std::cout << "Gold: " << player.getGold() << "\n\n";
 
     pauseForInput();
 }
@@ -223,7 +223,7 @@ void Display::explore(Player& player, CreatureList& creatureList)
 
 void Display::clearScreen()
 {
-    system("CLS"); 
+    system("clear"); 
 }
 
 void Display::pauseForInput()
