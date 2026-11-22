@@ -20,6 +20,10 @@ build/
 # Object files
 *.o
 
+# Game save files
+CreaturEX/saves/*
+!CreaturEX/saves/.gitkeep
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

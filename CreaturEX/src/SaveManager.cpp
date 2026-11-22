@@ -212,6 +212,7 @@ void Save::deserializeInventory(Player& player, std::ifstream& inFile)
     inFile.read(reinterpret_cast<char*>(&inventorySize), sizeof(inventorySize));
 
     std::vector<Item> loadedInventory;
+    std::vector<Item> itemDatabase = Item::createItemDatabase();
 
     for (size_t i = 0; i < inventorySize; i++)
     {
@@ -220,13 +221,20 @@ void Save::deserializeInventory(Player& player, std::ifstream& inFile)
         std::string itemName(itemNameSize, '\0');
         inFile.read(&itemName[0], itemNameSize);
 
-        int itemValue;
-        inFile.read(reinterpret_cast<char*>(&itemValue), sizeof(itemValue));
+        int itemQuantity;
+        inFile.read(reinterpret_cast<char*>(&itemQuantity), sizeof(itemQuantity));
 
-        for (int i = 0; i < itemValue; ++i)
+        for (const Item& databaseItem : itemDatabase)
         {
-            Item item(itemName, 0);
-            loadedInventory.push_back(item);
+            if (databaseItem.getName() == itemName)
+            {
+                for(int j = 0; j < itemQuantity; j++)
+                {
+                    loadedInventory.push_back(databaseItem);
+                }
+
+                break;
+            }
         }
     }
 
